@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.TreeSet;
 
-public class task1 extends AppCompatActivity {
+public class Task1 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class task1 extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() { // Выводит список добаленных учеников
             @Override
             public void onClick(View v) {
-                textView.setText("");
+                textView.setText(R.string.list);
                 for(String i : studentSet){
                     textView.append("\n" + i);
                 }

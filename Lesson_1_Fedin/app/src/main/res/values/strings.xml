@@ -5,10 +5,11 @@
     <string name="NameStudent">Имя ученика</string>
     <string name="button3">Добавить</string>
     <string name="button4">Показать список</string>
-    <string name="textview">список учеников</string>
+    <string name="textview">@string/list</string>
     <string name="studentLIst">Показать список студентов</string>
     <string name="list">Список студентов</string>
     <string name="textview3">TextView</string>
     <string name="student">Name</string>
+    <string name="error">Некоректные данные в поле ввода</string>
 
 </resources>

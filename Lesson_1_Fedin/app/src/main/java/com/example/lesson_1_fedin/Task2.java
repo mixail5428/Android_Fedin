@@ -8,10 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
-public class task2 extends AppCompatActivity {
+public class Task2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +30,17 @@ public class task2 extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
 
-                    try {
-                        Student newStudent = new Student(editText.getText().toString());
-                        list.put(newStudent.getId(), newStudent);
-                    }
-                    catch (Exception exp){
-                        exp.printStackTrace();
-                    }
-                    editText.setText("");
+                    String[] parse = editText.getText().toString().split(" ");
 
+                    if(parse.length == 4 && parse[3].matches("\\d+")){
+                        Student newStudent = new Student(parse);
+                        list.put(newStudent.getId(), newStudent);
+                        editText.setText("");
+                    }
+                    else{
+                        Toast toast = Toast.makeText(getApplicationContext(),R.string.error,Toast.LENGTH_LONG );
+                        toast.show();
+                    }
                     return true;
                 }
                 return false;
@@ -47,7 +50,7 @@ public class task2 extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() { // выводит вписок добавленных студентов
             @Override
             public void onClick(View v) {
-                listStudent.setText("");
+                listStudent.setText(R.string.list);
                 for(long i : list.keySet()){
                     listStudent.append("\n" + list.get(i).getStudentToString());
                 }
@@ -64,8 +67,8 @@ public class task2 extends AppCompatActivity {
         String grade;
         int birthdayYear;
 
-        Student(String str){
-            String[] parse = str.split(" ");
+        Student(String[] parse){
+
             id = System.currentTimeMillis();
             name = parse[0];
             surname = parse[1];
