@@ -22,20 +22,21 @@ public class task1 extends AppCompatActivity {
         Button button2 = (Button) findViewById(R.id.button3);
         final TextView textView = (TextView) findViewById(R.id.textView2);
 
-        final TreeSet<String> studentList = new TreeSet();
+        final TreeSet<String> studentSet = new TreeSet();
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                studentList.add(editText.getText().toString());
+                studentSet.add(editText.getText().toString()); // Добавляет учащегося в TreeSet
                 editText.setText("");
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() { // Выводит список добаленных учеников
             @Override
             public void onClick(View v) {
-                for(String i : studentList){
+                textView.setText("");
+                for(String i : studentSet){
                     textView.append("\n" + i);
                 }
             }

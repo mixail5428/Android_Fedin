@@ -6,5 +6,9 @@
     <string name="button3">Добавить</string>
     <string name="button4">Показать список</string>
     <string name="textview">список учеников</string>
+    <string name="studentLIst">Показать список студентов</string>
+    <string name="list">Список студентов</string>
+    <string name="textview3">TextView</string>
+    <string name="student">Name</string>
 
 </resources>
