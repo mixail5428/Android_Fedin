@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Lesson_1_Fedin</string>
+    <string name="button1">Задание 1</string>
+    <string name="button2">Задание 2</string>
+    <string name="NameStudent">Имя ученика</string>
+    <string name="button3">Добавить</string>
+    <string name="button4">Показать список</string>
+    <string name="textview">список учеников</string>
+
+</resources>
