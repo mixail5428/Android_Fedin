@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Lesson_2_Fedin</string>
+    <string name="poem">Sorry, there is nothing</string>
+    <string name="buttonTask1" translatable="false">Задание 1</string>
+    <string name="buttonTask2" translatable="false">Задание 2</string>
+    <string name="stringButtonTextVersion" translatable="false">Боль и страдание</string>
+    <string name="stringButtonTask2" translatable="false">Кнопка 1</string>
+
+</resources>
