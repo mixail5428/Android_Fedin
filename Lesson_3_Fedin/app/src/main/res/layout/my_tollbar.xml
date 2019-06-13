@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_tollbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Личный кабинет"
+        app:navigationIcon="@drawable/ic_arrow_back_black_24_px"
+        />
+
+    <com.google.android.material.circularreveal.CircularRevealRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:drawableLeft="@mipmap/img_profile_spechialist"
+            android:drawablePadding="16dp"
+            android:fontFamily="sans-serif"
+
+            android:gravity="center|left"
+
+            android:lineSpacingExtra="8sp"
+            android:textColor="@color/greyish_brown"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            tools:text="Карта №7898769\nСпециалист" />
+    </com.google.android.material.circularreveal.CircularRevealRelativeLayout>
+
+</com.google.android.material.appbar.AppBarLayout>
