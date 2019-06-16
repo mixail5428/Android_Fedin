@@ -25,6 +25,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        buttonTask2.setOnClickListener(new View.OnClickListener() { // переход в активити второго задания
+            @Override
+            public void onClick(View v) {
+                startActivity(Task2.createStartIntent(MainActivity.this));
+            }
+        });
+
+
         //startActivity(new Intent(MainActivity.this, Task1.class));
     }
 }

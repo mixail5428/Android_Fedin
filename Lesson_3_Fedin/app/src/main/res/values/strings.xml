@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Lesson_3_Fedin</string>
+    <string name="_name">Имя</string>
+    <string name="_surname">фамилия</string>
+    <string name="_login">Логин</string>
+    <string name="_e_mail">e-mail</string>
+    <string name="_location">Ваш регион</string>
 </resources>

@@ -1,12 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.circularreveal.CircularRevealRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Task1">
+    tools:context=".Task2">
 
-    <include layout="@layout/my_tollbar"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/my_tollbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
-</com.google.android.material.circularreveal.CircularRevealRelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="14dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Личные данные"
+                android:textColor="@color/squash"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <include
+                android:id="@+id/name"
+                layout="@layout/card_constraints" />
+
+            <include
+                android:id="@+id/surname"
+                layout="@layout/card_constraints" />
+
+            <include
+                android:id="@+id/e_mail"
+                layout="@layout/card_constraints" />
+
+            <include
+                android:id="@+id/login"
+                layout="@layout/card_constraints" />
+
+            <include
+                android:id="@+id/location"
+                layout="@layout/location_constraint" />
+
+            <include
+                android:id="@+id/exitAccaunt"
+                layout="@layout/exit_constraint" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

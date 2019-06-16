@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,8 +10,8 @@
         android:id="@+id/my_tollbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Личный кабинет"
-        app:navigationIcon="@drawable/ic_arrow_back_black_24_px"
+        app:title="Личный профиль"
+        app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
         />
 
     <com.google.android.material.circularreveal.CircularRevealRelativeLayout

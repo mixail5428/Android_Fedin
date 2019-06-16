@@ -6,29 +6,23 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
-public class Task1 extends AppCompatActivity {
+public class Task2 extends AppCompatActivity {
 
     public static Intent createStartIntent(Context context){
-        return new Intent(context, Task1.class);
+        return new Intent(context, Task2.class);
     }
 
     final String[] data = { "Карта №7898769\nСпециалист", "Анастасия", "Антонина", "anykee.box@gmail.ru", "HIE023UOI88", "Санкт-Петербург"};
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task1);
+        setContentView(R.layout.activity_task2);
 
         createToolbar();
 
@@ -52,11 +46,6 @@ public class Task1 extends AppCompatActivity {
                 toast.show();
             }
         });
-
-
-
-
-
     }
 
     private void createData(String[] list){
@@ -107,6 +96,7 @@ public class Task1 extends AppCompatActivity {
                 return false;
             }
         });
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
