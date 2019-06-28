@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         createRecyclerView();
     }
 
-    private void createToolbar(){
+    private void createToolbar() {
         Toolbar toolbar = findViewById(R.id.my_toolbar);
 
         toolbar.inflateMenu(R.menu.my_menu);
@@ -44,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) { //////обрабатываю нажатия на элементы toolbar
                 int id = item.getItemId();
 
-                switch (id){
+                switch (id) {
                     case R.id._home:
-                        Toast toast = Toast.makeText(getApplicationContext(),"нажат домик", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP, 0,100);
+                        Toast toast = Toast.makeText(getApplicationContext(), "нажат домик", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 100);
                         toast.show();
                         break;
 
@@ -89,21 +89,21 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {  /// нажатие на кнопку назад
-                Toast toast = Toast.makeText(getApplicationContext(),"нажато назад", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getApplicationContext(), "нажато назад", Toast.LENGTH_LONG);
                 toast.show();
             }
         });
     }
 
-    private void createRecyclerView(){
+    private void createRecyclerView() {
 
         recyclerView = findViewById(R.id.my_recyclerView);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if(recyclerView.getAdapter().getItemViewType(position) == MyAdapter.shortType)
+                if (recyclerView.getAdapter().getItemViewType(position) == MyAdapter.SHORTTYPE)
                     return 1;
                 else
                     return 2;
@@ -115,28 +115,28 @@ public class MainActivity extends AppCompatActivity {
         ((MyAdapter) adapter).setClickListener(new MyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DataCard item) {
-                Snackbar.make(findViewById(R.id.activityMain), item.getTitle(),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.activityMain), item.getTitle(), Snackbar.LENGTH_LONG).show();
             }
         });
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new MyItemDecoration((int)getResources().getDimensionPixelSize(R.dimen.space))); // расстояние между view в recyclerView
+        recyclerView.addItemDecoration(new MyItemDecoration(getResources().getDimensionPixelSize(R.dimen.space))); // расстояние между view в recyclerView
 
 
     }
 
     //создаю список с элементами для recyclerView
-    private void createDataList(){
+    private void createDataList() {
         listDataCard = new ArrayList<>();
-        listDataCard.add(new DataCard(this ,R.drawable.ic_bill,"Квитанция","- 40 080,55 \u20BD ",R.color.coral));
-        listDataCard.add(new DataCard(this ,R.drawable.ic_counter,"Счетчик","Подайте показания ",R.color.coral ));
-        listDataCard.add(new DataCard(this ,R.drawable.ic_installment,"Рассрочка","Сл. платеж 25.02.2018 "));
-        listDataCard.add(new DataCard(this ,R.drawable.ic_insurance,"Страхование","Полис до 12.01.2019"));
-        listDataCard.add(new DataCard(this ,R.drawable.ic_tv,"Интернет и ТВ","Балланс 350 \u20BD" ));
-        listDataCard.add(new DataCard(this ,R.drawable.ic_homephone,"Домофон","Подключен"));
-        listDataCard.add(new DataCard(this ,R.drawable.ic_guard,"Охрана","Нет"));
-        listDataCard.add(new DataCard(this ,R.drawable.ic_uk_contacts,"Контакты УК и служб"));
-        listDataCard.add(new DataCard(this ,R.drawable.ic_request,"Мои заявки"));
-        listDataCard.add(new DataCard(this ,R.drawable.ic_about,"Памятка жителя А101"));
+        listDataCard.add(new DataCard(R.drawable.ic_bill, "Квитанция", "- 40 080,55 \u20BD ", R.color.coral));
+        listDataCard.add(new DataCard(R.drawable.ic_counter, "Счетчик", "Подайте показания ", R.color.coral));
+        listDataCard.add(new DataCard(R.drawable.ic_installment, "Рассрочка", "Сл. платеж 25.02.2018 "));
+        listDataCard.add(new DataCard(R.drawable.ic_insurance, "Страхование", "Полис до 12.01.2019"));
+        listDataCard.add(new DataCard(R.drawable.ic_tv, "Интернет и ТВ", "Балланс 350 \u20BD"));
+        listDataCard.add(new DataCard(R.drawable.ic_homephone, "Домофон", "Подключен"));
+        listDataCard.add(new DataCard(R.drawable.ic_guard, "Охрана", "Нет"));
+        listDataCard.add(new DataCard(R.drawable.ic_uk_contacts, "Контакты УК и служб"));
+        listDataCard.add(new DataCard(R.drawable.ic_request, "Мои заявки"));
+        listDataCard.add(new DataCard(R.drawable.ic_about, "Памятка жителя А101"));
     }
 
 }
