@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Lesson_5_Fedin</string>
+    <string name="go_to_4">Перейти на активити 4</string>
+    <string name="go_to_2">Перейти на активити 2</string>
+    <string name="go_to_4_again">Вновь открыть это активити</string>
+    <string name="go_to_3">перейти на активити 3</string>
+    <string name="go_to_1">перейти на активити 1</string>
+    <string name="go_to_5">перейти на активити 5</string>
+    <string name="dataFormat">dd.MM.yyyy HH:mm:ss</string>
+    <string name="input_text">Введи сюда свою строку</string>
+    <string name="save">Сохранить</string>
+    <string name="services">Услуги</string>
+    <string name="full">Все</string>
+    <string name="offerService">Предложить услугу</string>
+</resources>
