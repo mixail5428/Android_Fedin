@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    >
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_water_cold" />
+
+    <ImageView
+        android:id="@+id/more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_more" />
+
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+
+        android:layout_marginRight="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/more"
+        app:layout_constraintEnd_toStartOf="@id/more"
+        app:layout_constraintTop_toTopOf="@id/more"
+        app:srcCompat="@drawable/ic_info" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextStyleForCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="20dp"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="12sp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Холодная вода" />
+
+    <ImageView
+        android:id="@+id/number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:srcCompat="@drawable/ic_serial_number" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:fontFamily="sans-serif"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="6sp"
+        android:textColor="@color/greyish_brown_three"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/number"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:text="54656553" />
+
+
+
+    <ImageView
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/tealish_two"
+
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/number"
+
+        app:srcCompat="@drawable/ic_send" />
+
+
+    <EditText
+        android:focusable="true"
+        android:clickable="true"
+        android:text="578785785"
+        android:ems="10"
+        android:textSize="14sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toStartOf="@id/button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView" />
+
+    <!--<EditText-->
+        <!--android:focusable="true"-->
+        <!--android:clickable="true"-->
+        <!--android:id="@+id/oneEditText"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:fontFamily="sans-serif"-->
+        <!--android:letterSpacing="0.01"-->
+        <!--android:lineSpacingExtra="10sp"-->
+        <!--android:inputType="number"-->
+
+        <!--android:textColor="@color/tealish_two"-->
+        <!--android:textSize="14sp"-->
+        <!--android:textStyle="normal"-->
+        <!--app:layout_constraintEnd_toStartOf="@id/twoEditText"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/imageView"-->
+        <!--android:text="65" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/twoEditText"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:focusable="auto"-->
+        <!--android:fontFamily="sans-serif"-->
+        <!--android:hint="984"-->
+
+        <!--android:letterSpacing="0.01"-->
+        <!--android:lineSpacingExtra="10sp"-->
+        <!--android:selectAllOnFocus="true"-->
+        <!--android:textColor="@color/default_title_indicator_footer_color"-->
+        <!--android:textSize="14sp"-->
+        <!--android:textStyle="normal"-->
+        <!--app:layout_constraintEnd_toStartOf="@id/threeEditText"-->
+        <!--app:layout_constraintStart_toEndOf="@id/oneEditText"-->
+        <!--app:layout_constraintTop_toTopOf="@id/oneEditText" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/threeEditText"-->
+        <!--app:layout_constraintStart_toEndOf="@id/twoEditText"-->
+        <!--app:layout_constraintEnd_toStartOf="@id/button"-->
+        <!--app:layout_constraintTop_toTopOf="@id/twoEditText"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+
+        <!--android:textSize="14sp"-->
+        <!--android:fontFamily="sans-serif"-->
+        <!--android:textStyle="normal"-->
+        <!--android:textColor="#c2c1c7"-->
+        <!--android:letterSpacing="0.01"-->
+        <!--android:lineSpacingExtra="10sp"-->
+        <!--tools:text="35"/>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

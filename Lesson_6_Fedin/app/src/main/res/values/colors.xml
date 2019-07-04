@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#881d1e25</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="pale_grey_two">#f2f5f6</color>
+    <color name="tealish_two">#32c7cd</color>
+    <color name="pinkish_grey">#c1c1c1</color>
+    <color name="charcoal_grey">#363742</color>
+    <color name="greyish_brown_three">#3f3f3f</color>
+</resources>
