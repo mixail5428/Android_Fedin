@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Lesson_6_Fedin</string>
+    <string name="new_meter_reading">Новые показания</string>
+    <string name="day">День</string>
+    <string name="night">Ночь</string>
+    <string name="peak">Пик</string>
+    <string name="discription_bad">Необходимо подать показания до %1$s</string>
+    <string name="discription_ok">Показания сданы %1$s и будут учтены при следующем расчете %2$s</string>
+    <string name="itemOne">Item One</string>
+    <string name="firstPunkt">Первый пункт</string>
+    <string name="twoPunkt">Второй пункт</string>
+    <string name="threePunkt">Третий пункт</string>
+    <string name="searsh">Поиск</string>
+    <string name="options">Настройки</string>
+    <string name="lamp">фонарик</string>
+
+
 </resources>

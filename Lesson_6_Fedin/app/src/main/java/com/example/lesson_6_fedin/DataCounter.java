@@ -3,39 +3,142 @@ package com.example.lesson_6_fedin;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DataCounter implements Parcelable {
-    private String title;
-    private String icon;
-    private String oneCounter;
-    private String twoCounter;
-    private String threeCounter;
-    private int TypeCounter;
+import java.util.Date;
 
+public class DataCounter implements Parcelable {
+
+    private static int FIRST_TYPE = 1;
+    private static int TWO_TYPE = 2;
+    private static int THREE_TYPE = 3;
+
+    private String title;
+    private int icon;
+    private int idUser;
+    private int oneCounter;
+    private int twoCounter;
+    private int threeCounter;
+    private int typeCounter;
+    private Date lastIndication;
+    private Date nextIndication;
+
+    public DataCounter(String title, int icon, int idUser, int oneCounter, Date lastIndication, Date nextIndication){
+        this.title = title;
+        this.icon = icon;
+        this.idUser = idUser;
+        this.oneCounter = oneCounter;
+        this.lastIndication = lastIndication;
+        this.nextIndication = nextIndication;
+        typeCounter = FIRST_TYPE;
+    }
+
+    public DataCounter(String title, int icon, int idUser, int oneCounter, int twoCounter, Date lastIndication, Date nextIndication){
+        this(title, icon, idUser, oneCounter, lastIndication, nextIndication);
+        this.twoCounter = twoCounter;
+        typeCounter = TWO_TYPE;
+    }
+
+    public DataCounter(String title, int icon, int idUser, int oneCounter, int twoCounter, int threeCounter,
+                       Date lastIndication, Date nextIndication){
+        this(title, icon, idUser, oneCounter, twoCounter, lastIndication, nextIndication);
+        this.threeCounter = threeCounter;
+        typeCounter = THREE_TYPE;
+    }
+
+    public static int getFirstType() {
+        return FIRST_TYPE;
+    }
+
+    public static void setFirstType(int firstType) {
+        FIRST_TYPE = firstType;
+    }
+
+    public static int getTwoType() {
+        return TWO_TYPE;
+    }
+
+    public static void setTwoType(int twoType) {
+        TWO_TYPE = twoType;
+    }
+
+    public static int getThreeType() {
+        return THREE_TYPE;
+    }
+
+    public static void setThreeType(int threeType) {
+        THREE_TYPE = threeType;
+    }
 
     public String getTitle() {
         return title;
     }
 
-    public String getIcon() {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getIcon() {
         return icon;
     }
 
-    public String getOneCounter() {
+    public void setIcon(int icon) {
+        this.icon = icon;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public int getOneCounter() {
         return oneCounter;
     }
 
-    public String getTwoCounter() {
+    public void setOneCounter(int oneCounter) {
+        this.oneCounter = oneCounter;
+    }
+
+    public int getTwoCounter() {
         return twoCounter;
     }
 
-    public String getThreeCounter() {
+    public void setTwoCounter(int twoCounter) {
+        this.twoCounter = twoCounter;
+    }
+
+    public int getThreeCounter() {
         return threeCounter;
     }
 
-    public int getTypeCounter() {
-        return TypeCounter;
+    public void setThreeCounter(int threeCounter) {
+        this.threeCounter = threeCounter;
     }
 
+    public int getTypeCounter() {
+        return typeCounter;
+    }
+
+    public void setTypeCounter(int typeCounter) {
+        this.typeCounter = typeCounter;
+    }
+
+    public Date getLastIndication() {
+        return lastIndication;
+    }
+
+    public void setLastIndication(Date lastIndication) {
+        this.lastIndication = lastIndication;
+    }
+
+    public Date getNextIndication() {
+        return nextIndication;
+    }
+
+    public void setNextIndication(Date nextIndication) {
+        this.nextIndication = nextIndication;
+    }
 
     @Override
     public int describeContents() {
@@ -45,23 +148,28 @@ public class DataCounter implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
-        dest.writeString(this.icon);
-        dest.writeString(this.oneCounter);
-        dest.writeString(this.twoCounter);
-        dest.writeString(this.threeCounter);
-        dest.writeInt(this.TypeCounter);
-    }
-
-    public DataCounter() {
+        dest.writeInt(this.icon);
+        dest.writeInt(this.idUser);
+        dest.writeInt(this.oneCounter);
+        dest.writeInt(this.twoCounter);
+        dest.writeInt(this.threeCounter);
+        dest.writeInt(this.typeCounter);
+        dest.writeLong(this.lastIndication != null ? this.lastIndication.getTime() : -1);
+        dest.writeLong(this.nextIndication != null ? this.nextIndication.getTime() : -1);
     }
 
     protected DataCounter(Parcel in) {
         this.title = in.readString();
-        this.icon = in.readString();
-        this.oneCounter = in.readString();
-        this.twoCounter = in.readString();
-        this.threeCounter = in.readString();
-        this.TypeCounter = in.readInt();
+        this.icon = in.readInt();
+        this.idUser = in.readInt();
+        this.oneCounter = in.readInt();
+        this.twoCounter = in.readInt();
+        this.threeCounter = in.readInt();
+        this.typeCounter = in.readInt();
+        long tmpLastIndication = in.readLong();
+        this.lastIndication = tmpLastIndication == -1 ? null : new Date(tmpLastIndication);
+        long tmpNextIndication = in.readLong();
+        this.nextIndication = tmpNextIndication == -1 ? null : new Date(tmpNextIndication);
     }
 
     public static final Creator<DataCounter> CREATOR = new Creator<DataCounter>() {

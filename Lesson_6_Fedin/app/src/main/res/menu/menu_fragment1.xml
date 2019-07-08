@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_nav_search"
+        android:title="@string/searsh"
+        app:showAsAction="ifRoom" />
+    <group android:id="@+id/options">
+        <item android:title="@string/options"
+            android:icon="@drawable/ic_optoins"
+            app:showAsAction="always">
+            <menu>
+                <item android:title="@string/firstPunkt"
+                    android:id="@+id/firstitem"/>
+                <item android:title="@string/twoPunkt"
+                    android:id="@+id/twoitem"/>
+                <item android:title="@string/threePunkt"
+                    android:id="@+id/threeitem"/>
+            </menu>
+        </item>
+    </group>
+
+
+</menu>

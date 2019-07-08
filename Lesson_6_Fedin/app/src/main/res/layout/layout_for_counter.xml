@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
-    >
-
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    android:background="@android:color/white">
 
     <ImageView
         android:id="@+id/imageView"
@@ -17,30 +19,44 @@
         android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_water_cold" />
+        tools:srcCompat="@drawable/ic_water_cold" />
 
-    <ImageView
+    <FrameLayout
+
         android:id="@+id/more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_more" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_more" />
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-
-        android:layout_marginRight="20dp"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@id/more"
         app:layout_constraintEnd_toStartOf="@id/more"
-        app:layout_constraintTop_toTopOf="@id/more"
-        app:srcCompat="@drawable/ic_info" />
+        app:layout_constraintTop_toTopOf="@id/more">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_info" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/title"
@@ -52,10 +68,10 @@
         android:layout_marginTop="20dp"
         android:letterSpacing="0.01"
         android:lineSpacingExtra="12sp"
+        tools:text="Холодная вода"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/imageView"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Холодная вода" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/number"
@@ -75,100 +91,78 @@
         android:fontFamily="sans-serif"
         android:letterSpacing="0.01"
         android:lineSpacingExtra="6sp"
+        tools:text="54656553"
         android:textColor="@color/greyish_brown_three"
         android:textSize="14sp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/number"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        android:text="54656553" />
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
-
-
-    <ImageView
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/tealish_two"
-
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/number"
-
-        app:srcCompat="@drawable/ic_send" />
-
-
-    <EditText
-        android:focusable="true"
-        android:clickable="true"
-        android:text="578785785"
-        android:ems="10"
-        android:textSize="14sp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toStartOf="@id/button"
+        android:layout_margin="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView" />
+        app:layout_constraintTop_toBottomOf="@id/imageView">
 
-    <!--<EditText-->
-        <!--android:focusable="true"-->
-        <!--android:clickable="true"-->
-        <!--android:id="@+id/oneEditText"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginLeft="8dp"-->
-        <!--android:fontFamily="sans-serif"-->
-        <!--android:letterSpacing="0.01"-->
-        <!--android:lineSpacingExtra="10sp"-->
-        <!--android:inputType="number"-->
+        <include
+            android:id="@+id/firstEditText"
+            layout="@layout/layout_edit_text"
+            tools:visibility="visible" />
 
-        <!--android:textColor="@color/tealish_two"-->
-        <!--android:textSize="14sp"-->
-        <!--android:textStyle="normal"-->
-        <!--app:layout_constraintEnd_toStartOf="@id/twoEditText"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/imageView"-->
-        <!--android:text="65" />-->
+        <include
+            android:id="@+id/twoEditText"
+            layout="@layout/layout_edit_text"
+            tools:visibility="visible" />
 
-    <!--<EditText-->
-        <!--android:id="@+id/twoEditText"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:focusable="auto"-->
-        <!--android:fontFamily="sans-serif"-->
-        <!--android:hint="984"-->
+        <include
+            android:id="@+id/threeEditText"
+            layout="@layout/layout_edit_text"
+            tools:visibility="visible" />
 
-        <!--android:letterSpacing="0.01"-->
-        <!--android:lineSpacingExtra="10sp"-->
-        <!--android:selectAllOnFocus="true"-->
-        <!--android:textColor="@color/default_title_indicator_footer_color"-->
-        <!--android:textSize="14sp"-->
-        <!--android:textStyle="normal"-->
-        <!--app:layout_constraintEnd_toStartOf="@id/threeEditText"-->
-        <!--app:layout_constraintStart_toEndOf="@id/oneEditText"-->
-        <!--app:layout_constraintTop_toTopOf="@id/oneEditText" />-->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="8dp"
+            android:background="@drawable/button_counter">
 
-    <!--<EditText-->
-        <!--android:id="@+id/threeEditText"-->
-        <!--app:layout_constraintStart_toEndOf="@id/twoEditText"-->
-        <!--app:layout_constraintEnd_toStartOf="@id/button"-->
-        <!--app:layout_constraintTop_toTopOf="@id/twoEditText"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
+            <ImageButton
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_send" />
+        </FrameLayout>
 
-        <!--android:textSize="14sp"-->
-        <!--android:fontFamily="sans-serif"-->
-        <!--android:textStyle="normal"-->
-        <!--android:textColor="#c2c1c7"-->
-        <!--android:letterSpacing="0.01"-->
-        <!--android:lineSpacingExtra="10sp"-->
-        <!--tools:text="35"/>-->
+    </LinearLayout>
 
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:letterSpacing="0.02"
+        android:lineSpacingExtra="6sp"
+        android:paddingStart="8dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/charcoal_grey"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        tools:text="Показания сданы 16.02.18 и будут учтены при следующем расчете 25.02.18" />
 </androidx.constraintlayout.widget.ConstraintLayout>
