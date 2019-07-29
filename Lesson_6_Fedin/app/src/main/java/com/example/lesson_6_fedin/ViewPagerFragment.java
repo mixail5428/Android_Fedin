@@ -20,6 +20,9 @@ public class ViewPagerFragment extends Fragment {
 
     private String drawable;
     private String text;
+    ImageView imageView;
+    TextView textView;
+    View layout;
 
 
 
@@ -49,10 +52,16 @@ public class ViewPagerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageView imageView = view.findViewById(R.id.imageView);
+        imageView = view.findViewById(R.id.imageView);
+        textView = view.findViewById(R.id.textView);
+        layout = view;
+        billing(drawable, text);
+    }
+
+    private void billing(String _drawable, final String _text){
         Glide
-                .with(view)
-                .load(drawable)
+                .with(imageView)
+                .load(_drawable)
                 .placeholder(R.drawable.ic_alert)
                 .centerCrop()
                 .into(imageView);
@@ -60,12 +69,15 @@ public class ViewPagerFragment extends Fragment {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, text, Snackbar.LENGTH_SHORT ).show();
+                Snackbar.make(v, _text, Snackbar.LENGTH_SHORT ).show();
             }
         });
 
-        TextView textView = view.findViewById(R.id.textView);
         textView.setText(text);
     }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
 }

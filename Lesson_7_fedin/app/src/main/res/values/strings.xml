@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Lesson_7_fedin</string>
+    <string name="The_Most_SPB">The Most SPB</string>
+    <string name="reconnect">Повторить подключение</string>
+    <string name="status_none">При подключении к сети произошла ошибка. Проверьте подключение к сети
+    и повторите попытку снова.</string>
+    <string name="status_connecting">Идет подключение к сети</string>
+</resources>

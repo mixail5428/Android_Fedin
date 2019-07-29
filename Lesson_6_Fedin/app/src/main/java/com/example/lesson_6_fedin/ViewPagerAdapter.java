@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<DataDrawable> dataDrawables;
-    public ViewPagerAdapter(FragmentManager fm, ArrayList<DataDrawable> dataDrawables ) {
+    public ViewPagerAdapter(FragmentManager  fm, ArrayList<DataDrawable> dataDrawables ) {
         super(fm);
         this.dataDrawables = dataDrawables;
     }

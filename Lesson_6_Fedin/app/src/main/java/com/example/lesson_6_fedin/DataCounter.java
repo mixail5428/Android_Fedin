@@ -7,9 +7,9 @@ import java.util.Date;
 
 public class DataCounter implements Parcelable {
 
-    private static int FIRST_TYPE = 1;
-    private static int TWO_TYPE = 2;
-    private static int THREE_TYPE = 3;
+    static final int FIRST_TYPE = 1;
+    static final int TWO_TYPE = 2;
+    static final int THREE_TYPE = 3;
 
     private String title;
     private int icon;
@@ -48,24 +48,12 @@ public class DataCounter implements Parcelable {
         return FIRST_TYPE;
     }
 
-    public static void setFirstType(int firstType) {
-        FIRST_TYPE = firstType;
-    }
-
     public static int getTwoType() {
         return TWO_TYPE;
     }
 
-    public static void setTwoType(int twoType) {
-        TWO_TYPE = twoType;
-    }
-
     public static int getThreeType() {
         return THREE_TYPE;
-    }
-
-    public static void setThreeType(int threeType) {
-        THREE_TYPE = threeType;
     }
 
     public String getTitle() {

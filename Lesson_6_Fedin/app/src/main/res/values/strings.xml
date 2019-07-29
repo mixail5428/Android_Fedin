@@ -13,6 +13,8 @@
     <string name="searsh">Поиск</string>
     <string name="options">Настройки</string>
     <string name="lamp">фонарик</string>
+    <string name="show_banner">Показать баннер</string>
+    <string name="hide_banner">Скрыть баннер</string>
 
 
 </resources>

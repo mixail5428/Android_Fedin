@@ -29,7 +29,8 @@ public class AdapterServices extends RecyclerView.Adapter<AdapterServices.Holder
     @NonNull
     @Override
     public HolderServices onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new HolderServices(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_data_services, parent, false));
+        return new HolderServices(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.card_data_services, parent, false));
     }
 
     @Override

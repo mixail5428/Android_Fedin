@@ -65,7 +65,7 @@ public class FragmentTwo extends Fragment implements AdapterRecyclerViewCounter.
         recyclerView = view.findViewById(R.id.recycler_view);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new AdapterRecyclerViewCounter(dataCounters, this)); // передаю контекст фрагмента. как правильно?
+        recyclerView.setAdapter(new AdapterRecyclerViewCounter(dataCounters, this));
 
     }
 

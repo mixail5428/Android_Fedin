@@ -102,7 +102,6 @@ public class AdapterRecyclerViewCounter
                     String counter1 = editTextLayoutFirstEditText.getText().toString();
                     String counter2 = editTextLayoutTwoEditText.getText().toString();
                     String counter3 = editTextLayoutThreeEditText.getText().toString();
-
                     switch (item.getTypeCounter()) {
                         case 1:
                             if (!counter1.isEmpty()) {
@@ -143,14 +142,14 @@ public class AdapterRecyclerViewCounter
 
         private void visibleView(int typeCounter) {
             switch (typeCounter) {
-                case 1:
+                case DataCounter.FIRST_TYPE:
                     layoutFirstEditText.setVisibility(View.VISIBLE);
                     layoutTwoEditText.setVisibility(View.GONE);
                     layoutThreeEditText.setVisibility(View.GONE);
 
                     textViewLayoutFirstEditText.setText(layout.getContext().getText(R.string.new_meter_reading));
                     break;
-                case 2:
+                case DataCounter.TWO_TYPE:
                     layoutFirstEditText.setVisibility(View.VISIBLE);
                     layoutTwoEditText.setVisibility(View.VISIBLE);
                     layoutThreeEditText.setVisibility(View.GONE);
@@ -158,7 +157,7 @@ public class AdapterRecyclerViewCounter
                     textViewLayoutFirstEditText.setText(layout.getContext().getText(R.string.day));
                     textViewLayoutTwoEditText.setText(layout.getContext().getText(R.string.night));
                     break;
-                case 3:
+                case DataCounter.THREE_TYPE:
                     layoutFirstEditText.setVisibility(View.VISIBLE);
                     layoutTwoEditText.setVisibility(View.VISIBLE);
                     layoutThreeEditText.setVisibility(View.VISIBLE);
@@ -202,7 +201,7 @@ public class AdapterRecyclerViewCounter
         private void descriptionBad(Date date) {
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
             String str = layout.getContext().getResources().getString(R.string.discription_bad, format.format(date));
-            int padding_8dp = (int) layout.getContext().getResources().getDisplayMetrics().density * 8;
+            int padding_8dp = (int) layout.getContext().getResources().getDimension(R.dimen.padding_drawable);
             description.setText(str);
             description.setTextColor(layout.getResources().getColor(R.color.coral));
             Drawable drawable = layout.getResources().getDrawable(R.drawable.ic_alert);
@@ -212,14 +211,8 @@ public class AdapterRecyclerViewCounter
             description.setGravity(View.TEXT_ALIGNMENT_CENTER);
         }
     }
-
-    public AdapterRecyclerViewCounter(ArrayList<DataCounter> dataCounters, Fragment context) { // получаю контекст фрагмента
-        if (context instanceof AdapterClickListr)
-            adapterClickListener = (AdapterClickListr) context;
-        else
-            throw new RuntimeException(context.toString()
-                    + " must implement AdapterClickListener");
-
+    public AdapterRecyclerViewCounter(ArrayList<DataCounter> dataCounters, AdapterClickListr adapterClickListr) {
+        this.adapterClickListener = adapterClickListr;
         this.dataCounters = dataCounters;
     }
 
