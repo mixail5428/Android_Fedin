@@ -6,37 +6,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.Layout;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.example.lesson_7_fedin.bridge.Bridge;
 import com.example.lesson_7_fedin.bridgeAPI.BridgeAPI;
-
-import java.util.Iterator;
 import java.util.List;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements AdapterRecyclerViewBridges.ClickListener {
-    final String LOG = "mLOG";
-
-    final int STATUS_NONE = 0; // нет подключения
-    final int STATUS_CONNECTING = 1; // подключаемся
-    final int STATUS_CONNECTED = 2; // подключено
-
-    List<Bridge> bridges;
-    Handler h;
+    Disposable subscribe;
     TextView textView;
     ProgressBar progressBar;
     Button button;
@@ -50,45 +33,28 @@ public class MainActivity extends AppCompatActivity implements AdapterRecyclerVi
 
         createToolbar();
         findView();
-
-        h = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case STATUS_NONE:
-                        statusNone();
-                        break;
-
-                    case STATUS_CONNECTING:
-                        statusConnecting();
-                        updateBridges();
-                        break;
-
-                    case STATUS_CONNECTED:
-                        statusConnected();
-                        break;
-
-                }
-            }
-        };
-
-        h.sendEmptyMessage(STATUS_CONNECTING);
+        statusConnecting();
+        updateBridges();
     }
 
     @SuppressLint("CheckResult")
     private void updateBridges() {
         BridgeAPI bridgeAPI = Controler.getBridgeAPI();
 
-        bridgeAPI.getData()
+        subscribe = bridgeAPI.getData()
                 .map(o -> o.getBridges())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(bridges1 -> {
-                            bridges = bridges1;
-                            h.sendEmptyMessage(STATUS_CONNECTED);
-                        },
-                        error -> h.sendEmptyMessage(STATUS_NONE)
+                .subscribe(bridges -> statusConnected(bridges),
+                        error -> statusNone()
                 );
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (subscribe != null)
+            subscribe.dispose();
     }
 
     private void findView() {
@@ -96,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements AdapterRecyclerVi
         textView = findViewById(R.id.textView);
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
-        button.setOnClickListener(v -> h.sendEmptyMessage(STATUS_CONNECTING));
+        button.setOnClickListener(v -> statusConnecting());
     }
 
     private void createToolbar() {
@@ -116,9 +82,10 @@ public class MainActivity extends AppCompatActivity implements AdapterRecyclerVi
         textView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         textView.setText(R.string.status_connecting);
+        updateBridges();
     }
 
-    private void statusConnected() {
+    private void statusConnected(List<Bridge> bridges) {
         button.setVisibility(View.INVISIBLE);
         textView.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
@@ -134,6 +101,6 @@ public class MainActivity extends AppCompatActivity implements AdapterRecyclerVi
 
     @Override
     public void clickRecyclerView(Bridge bridge) {
-        startActivity(DescriptionBridge.createStartIntent(MainActivity.this, bridge));
+        startActivity(BridgeDetailActivity.createStartIntent(MainActivity.this, bridge));
     }
 }

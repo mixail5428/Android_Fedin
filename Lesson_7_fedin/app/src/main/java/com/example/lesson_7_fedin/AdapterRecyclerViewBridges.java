@@ -1,5 +1,6 @@
 package com.example.lesson_7_fedin;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import java.util.List;
 public class AdapterRecyclerViewBridges extends RecyclerView.Adapter<AdapterRecyclerViewBridges
         .HolderBridge> {
 
-    List<Bridge> bridges;
+    private List<Bridge> bridges;
     private ClickListener clickListener;
 
     interface ClickListener {
@@ -29,10 +30,10 @@ public class AdapterRecyclerViewBridges extends RecyclerView.Adapter<AdapterRecy
 
     public static class HolderBridge extends RecyclerView.ViewHolder {
         Bridge bridge;
-        View layout;
+        View viewLayout;
         ImageView imageViewStatus;
-        TextView name;
-        TextView divorce;
+        TextView textViewName;
+        TextView textViewDivorce;
         boolean status;
         public static final boolean STATUS_OPEN = true;
         public static final boolean STATUS_CLOSE = false;
@@ -40,15 +41,15 @@ public class AdapterRecyclerViewBridges extends RecyclerView.Adapter<AdapterRecy
 
         public HolderBridge(@NonNull View itemView) {
             super(itemView);
-            layout = itemView;
+            viewLayout = itemView;
             imageViewStatus = itemView.findViewById(R.id.imageView_status);
-            name = itemView.findViewById(R.id.textView_name);
-            divorce = itemView.findViewById(R.id.textView_divorce);
+            textViewName = itemView.findViewById(R.id.textView_name);
+            textViewDivorce = itemView.findViewById(R.id.textView_divorce);
         }
 
         public void bind(Bridge bridge, ClickListener clickListener) {
             this.bridge = bridge;
-            layout.setOnClickListener(new View.OnClickListener() {
+            viewLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (clickListener != null)
@@ -57,7 +58,7 @@ public class AdapterRecyclerViewBridges extends RecyclerView.Adapter<AdapterRecy
                 }
             });
 
-            name.setText(bridge.getName());
+            textViewName.setText(bridge.getName());
             createDivorce();
             iconStatus();
         }
@@ -68,7 +69,7 @@ public class AdapterRecyclerViewBridges extends RecyclerView.Adapter<AdapterRecy
                 Divorce item = iterator.next();
                 String[] start = item.getStart().split(":");
                 String[] end = item.getEnd().split(":");
-                divorce.append(start[0] + ":" + start[1] + " - " + end[0] + ":" + end[1] + "   ");
+                textViewDivorce.append(start[0] + ":" + start[1] + " - " + end[0] + ":" + end[1] + "   ");
             }
         }
 
@@ -89,12 +90,13 @@ public class AdapterRecyclerViewBridges extends RecyclerView.Adapter<AdapterRecy
 
                 //контролирую чтобы start > end всегда
                 if (timeStart.after(timeEnd))
-                    timeEnd.add(Calendar.DAY_OF_YEAR, 1);
+                    timeEnd.add(Calendar.DATE, 1);
 
                 if (now.after(timeStart) && now.after(timeEnd)) {
-                    timeStart.add(Calendar.DAY_OF_YEAR, 1);
-                    timeEnd.add(Calendar.DAY_OF_YEAR, 1);
+                    timeStart.add(Calendar.DATE, 1);
+                    timeEnd.add(Calendar.DATE, 1);
                 }
+
 
                 if (now.after(timeStart) && now.before(timeEnd)) {
                     status = STATUS_CLOSE;
@@ -119,15 +121,15 @@ public class AdapterRecyclerViewBridges extends RecyclerView.Adapter<AdapterRecy
         }
 
         public void dontClicable() {
-            layout.setFocusable(false);
-            layout.setClickable(false);
-            layout.setBackground(null);
+            viewLayout.setFocusable(false);
+            viewLayout.setClickable(false);
+            viewLayout.setBackground(null);
         }
 
 
         private Calendar createCalendar(String[] data) {
             Calendar calendar = new GregorianCalendar();
-            calendar.set(Calendar.HOUR, Integer.parseInt(data[0]));
+            calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(data[0]));
             calendar.set(Calendar.MINUTE, Integer.parseInt(data[1]));
             calendar.set(Calendar.SECOND, 0);
             return calendar;
