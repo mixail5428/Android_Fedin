@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Lesson_8_Fedin</string>
+    <string name="title_main_activity_toolbar">Заметки</string>
+    <string name="no_records_found">Здесь еще нет записей. Нажмите на плюсик, чтобы добавить
+    новую запись</string>
+    <string name="change_color">Сменить цвет</string>
+</resources>
