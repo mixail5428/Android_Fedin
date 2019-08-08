@@ -4,4 +4,11 @@
     <string name="no_records_found">Здесь еще нет записей. Нажмите на плюсик, чтобы добавить
     новую запись</string>
     <string name="change_color">Сменить цвет</string>
+    <string name="delete_note">Удалить запись</string>
+    <string name="archived_note">Заархивировать</string>
+    <string name="close">Отмена</string>
+    <string name="selected_color">Выбор цвета</string>
+    <string name="cansellation">ОТМЕНА</string>
+    <string name="cansel">Отмена</string>
+    <string name="search">Search</string>
 </resources>

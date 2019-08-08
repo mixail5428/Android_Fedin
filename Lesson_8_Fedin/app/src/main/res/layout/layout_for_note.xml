@@ -5,11 +5,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    >
 
     <RelativeLayout
-        android:id="@+id/background"
-        android:background="@color/coral"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="18dp">

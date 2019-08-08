@@ -1,27 +1,26 @@
 package com.example.lesson_8_fedin;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lesson_8_fedin.localDatabase.Note;
 
 import java.util.List;
-import java.util.Random;
-
-import static com.example.lesson_8_fedin.MainActivity.MY_CODE;
 
 public class RecyclerAdapterForNotes extends RecyclerView.Adapter<RecyclerAdapterForNotes.NoteHolder> {
     private List<Note> notes;
     private OnClickRecyclerElement onClickRecyclerElement;
 
     public interface OnClickRecyclerElement {
-        void click(Note note);
+        void onClick(Note note);
+
+        void LongClick(Note note);
     }
 
 
@@ -53,26 +52,56 @@ public class RecyclerAdapterForNotes extends RecyclerView.Adapter<RecyclerAdapte
     public static class NoteHolder extends RecyclerView.ViewHolder {
         TextView textViewTitle;
         TextView textViewDescription;
+        CardView cardView;
         View layout;
-        View background;
 
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
-            layout = itemView;
+            cardView = (CardView) itemView;
             textViewTitle = itemView.findViewById(R.id.title);
             textViewDescription = itemView.findViewById(R.id.description);
-            background = itemView.findViewById(R.id.background);
+            layout = itemView.findViewById(R.id.layout);
         }
 
-        public void bindNoteHolder(Note note, OnClickRecyclerElement onClickRecyclerElement) {
-            Random rnd = new Random();
-            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-            background.setBackgroundColor(color);
-            textViewTitle.setText(note.getTitle());
+        private int getColor(int color) {
+            return cardView.getResources().getColor(color);
+        }
+
+        void bindNoteHolder(Note note, OnClickRecyclerElement onClickRecyclerElement) {
+
+            if (note.getColor() == Note.DEFAULT_COLOR)
+                note.setColor(getColor(R.color.white));
+
+            cardView.setCardBackgroundColor(note.getColor());
+
+            if (note.getColor() == getColor(R.color.white)) {
+                textViewTitle.setTextColor(getColor(R.color.black_87));
+                textViewDescription.setTextColor(getColor(R.color.black_87));
+            } else {
+                textViewTitle.setTextColor(getColor(R.color.white));
+                textViewDescription.setTextColor(getColor(R.color.white));
+            }
+
+            if (note.getTitle().isEmpty()) {
+                textViewTitle.setVisibility(View.GONE);
+            } else {
+                textViewTitle.setVisibility(View.VISIBLE);
+                textViewTitle.setText(note.getTitle());
+            }
+
             textViewDescription.setText(note.getDescription());
-            background.setOnClickListener(v -> {
+
+            layout.setOnClickListener(v -> {
                 if (onClickRecyclerElement != null)
-                    onClickRecyclerElement.click(note);
+                    onClickRecyclerElement.onClick(note);
+            });
+
+            layout.setOnLongClickListener(v -> {
+                if (onClickRecyclerElement != null) {
+                    onClickRecyclerElement.LongClick(note);
+                    return true;
+                }
+                return false;
             });
         }
     }

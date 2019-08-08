@@ -28,6 +28,7 @@
                 app:layout_collapseMode="pin"
                 app:titleTextColor="@android:color/white">
 
+
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -66,14 +67,14 @@
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:scrollbars="vertical"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignParentBottom="true"
+                android:clipToPadding="true"
+                android:paddingStart="4dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="6dp"
+                android:scrollbars="vertical" />
 
         </RelativeLayout>
 

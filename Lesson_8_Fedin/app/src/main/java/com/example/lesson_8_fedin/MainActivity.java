@@ -1,39 +1,34 @@
 package com.example.lesson_8_fedin;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.room.Room;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lesson_8_fedin.localDatabase.AppDatabase;
 import com.example.lesson_8_fedin.localDatabase.LocalDatabase;
 import com.example.lesson_8_fedin.localDatabase.Note;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements RecyclerAdapterForNotes.OnClickRecyclerElement {
@@ -42,8 +37,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterFo
 
     RecyclerView recyclerView;
     AppDatabase appDatabase;
-    Disposable disposable;
-    Disposable disposable1;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    SearchView searchView;
     ProgressBar progressBar;
     TextView textViewNoRecords;
 
@@ -60,6 +56,22 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterFo
     private void createToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title_main_activity_toolbar);
+        toolbar.inflateMenu(R.menu.nemu_main_activity);
+        MenuItem myActionMenuItem = toolbar.getMenu().findItem(R.id.action_search);
+        searchView = (SearchView) myActionMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this, "Submit " + query, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Toast.makeText(MainActivity.this, "Change " + newText, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 
     private void createFloatingActionButton() {
@@ -71,28 +83,27 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterFo
     private void newNote() {
         Note newNote = new Note();
         startActivityForResult(ActivityEditRecord.createStartIntent(MainActivity.this, newNote), MY_CODE);
-
     }
 
     @SuppressLint("CheckResult")
     private void createDatabase() {
-        disposable1 = Completable.create(e -> {
-            appDatabase = LocalDatabase.getInstance().getAppDatabase();
-            e.onComplete();
-        })
+        Disposable disposable = Single.fromCallable(() -> LocalDatabase.getInstance().getAppDatabase())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {
+                .subscribe(object -> {
+                    appDatabase = object;
                     createRecyclerView();
                     createSubscriptionUpdateDatabase();
                 });
+
+        compositeDisposable.add(disposable);
     }
 
-
     private void createSubscriptionUpdateDatabase() {
-        disposable = appDatabase.noteDao().getAll()
+        Disposable disposable = appDatabase.noteDao().getAll(Note.STATUS_NOTE_NOT_ARCHIVED)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateRecyclerView);
+        compositeDisposable.add(disposable);
     }
 
     private void updateRecyclerView(List<Note> notes) {
@@ -118,37 +129,52 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterFo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == MY_CODE && resultCode == RESULT_OK){
-            if(data != null){
+        if (requestCode == MY_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
                 Note note = data.getParcelableExtra(ActivityEditRecord.EXTRA_NOTE);
-                Completable.create(e -> {
-                    appDatabase.noteDao().insert(note);
-                    e.onComplete();
-                })
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe();
+                updateOrInsertNote(note);
             }
         }
     }
 
+    private void updateOrInsertNote(Note note) {
+        Disposable disposable = Completable.fromAction(() -> appDatabase.noteDao().insert(note))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+
+        compositeDisposable.add(disposable);
+    }
+
     @Override
-    public void click(Note note) {
+    public void onClick(Note note) {
         startActivityForResult(ActivityEditRecord.createStartIntent(MainActivity.this, note), MY_CODE);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i("qwerty", "onDestroy");
-        if (disposable.isDisposed()) {
-            disposable.dispose();
-            Log.i("qwerty", "отписался от обновлений базы"); // Этого нет в логах
-        }
+    public void LongClick(Note note) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setNegativeButton(R.string.delete_note, (dialog1, which) -> {
+            Disposable disposable = Completable.fromAction(() -> appDatabase.noteDao().delete(note))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe();
+            compositeDisposable.add(disposable);
+        });
+        dialog.setPositiveButton(R.string.archived_note, (dialog12, which) -> {
+            note.archivedNote();
+            updateOrInsertNote(note);
+        });
 
-        if (disposable1.isDisposed()) {
-            disposable1.dispose();
-            Log.i("qwerty", "отписался от completable");
-        }
+        dialog.setNeutralButton(R.string.close, (dialog13, which) -> dialog13.dismiss());
+
+        dialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.dispose();
+        appDatabase.close(); // здесь не уверен. Это можно делать уже в UI потоке?
+        super.onDestroy();
     }
 }

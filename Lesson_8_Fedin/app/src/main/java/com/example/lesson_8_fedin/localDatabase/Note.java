@@ -4,10 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class Note implements Parcelable {
+
+    @Ignore
+    public static final int DEFAULT_COLOR = -11111111;
+
+    @Ignore
+    public static final int STATUS_NOTE_ARCHIVED = 1;
+
+    @Ignore
+    public static final int STATUS_NOTE_NOT_ARCHIVED = 0;
+
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -21,14 +32,24 @@ public class Note implements Parcelable {
     private int archived;
 
     public Note(){
-        this("", "", 0);
+        this("", "");
     }
 
-    public Note(String title, String description, int color){
+    public Note(String title, String description, int color, int archived){
+        this(title, description);
+        this.color = color;
+        this.archived = archived;
+    }
+
+    public Note(String title, String description){
         this.title = title;
         this.description = description;
-        this.color = color;
+        this.color = DEFAULT_COLOR;
         archived = 0;
+    }
+
+    public void archivedNote(){
+        archived = 1;
     }
 
     public int getId() {
