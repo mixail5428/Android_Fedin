@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -82,7 +83,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterFo
     @SuppressLint("CheckResult")
     private void newNote() {
         Note newNote = new Note();
-        startActivityForResult(ActivityEditRecord.createStartIntent(MainActivity.this, newNote), MY_CODE);
+        Disposable disposable = Single.fromCallable(() -> appDatabase.noteDao()
+                .insertAndReturnId(newNote))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(id -> startActivity(ActivityEditRecord
+                        .createStartIntent(MainActivity.this, id)));
+
+        compositeDisposable.add(disposable);
     }
 
     @SuppressLint("CheckResult")
@@ -126,16 +134,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterFo
         textViewNoRecords = findViewById(R.id.text_view_no_record_found);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MY_CODE && resultCode == RESULT_OK) {
-            if (data != null) {
-                Note note = data.getParcelableExtra(ActivityEditRecord.EXTRA_NOTE);
-                updateOrInsertNote(note);
-            }
-        }
-    }
 
     private void updateOrInsertNote(Note note) {
         Disposable disposable = Completable.fromAction(() -> appDatabase.noteDao().insert(note))
@@ -148,7 +146,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapterFo
 
     @Override
     public void onClick(Note note) {
-        startActivityForResult(ActivityEditRecord.createStartIntent(MainActivity.this, note), MY_CODE);
+        startActivity(ActivityEditRecord.createStartIntent(MainActivity.this,
+                note.getId()));
     }
 
     @Override

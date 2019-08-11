@@ -34,6 +34,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -41,34 +42,49 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:layout_width="wrap_content"
+                android:id="@+id/progressbar"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                style="@style/Widget.AppCompat.ProgressBar"/>
+
+            <EditText
+                android:visibility="invisible"
+                android:id="@+id/edit_text_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp">
+                android:layout_marginTop="20dp"
+                android:background="@null"
+                android:fontFamily="sans-serif-medium"
+                android:hint="@string/title"
+                android:inputType="text"
+                android:lineSpacingExtra="8sp"
+                android:textColor="@color/warm_grey_four"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                tools:text="Название" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_text_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Название" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
+                android:visibility="invisible"
+                android:id="@+id/edit_text_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp">
+                android:layout_marginTop="12dp"
+                android:background="@null"
+                android:fontFamily="sans-serif"
+                android:hint="@string/description"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="8sp"
+                android:textColor="@color/black_54"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                tools:text="Текст заметки" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_text_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Описание"
-                    android:inputType="textMultiLine" />
-            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
 
 

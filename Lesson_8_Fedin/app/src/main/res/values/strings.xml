@@ -11,4 +11,6 @@
     <string name="cansellation">ОТМЕНА</string>
     <string name="cansel">Отмена</string>
     <string name="search">Search</string>
+    <string name="title">Название</string>
+    <string name="description">Текст заметки</string>
 </resources>

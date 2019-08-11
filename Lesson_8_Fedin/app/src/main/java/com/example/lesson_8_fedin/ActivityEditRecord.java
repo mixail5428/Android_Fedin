@@ -3,34 +3,53 @@ package com.example.lesson_8_fedin;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.core.widget.NestedScrollView;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.lesson_8_fedin.localDatabase.AppDatabase;
+import com.example.lesson_8_fedin.localDatabase.LocalDatabase;
 import com.example.lesson_8_fedin.localDatabase.Note;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
+import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class ActivityEditRecord extends AppCompatActivity {
-    public static final String EXTRA_NOTE = "EXTRA_NOTE";
+    public static final String EXTRA_NOTE_ID = "EXTRA_NOTE_ID";
+
+    public static final long DEFAULT_ID = -1;
+    long idNote;
     Note note;
-    TextInputEditText editTextTitle;
-    TextInputEditText editTextDescription;
+    NestedScrollView nestedScrollView;
+    EditText editTextTitle;
+    EditText editTextDescription;
     AlertDialog alertDialog;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+    AppDatabase appDatabase;
+    ContentLoadingProgressBar progressBar;
+    MenuItem menuItemColorSelected;
 
     private ArrayList<Integer> arrayListColor;
 
 
-    public static Intent createStartIntent(Context context, Note note) {
+    public static Intent createStartIntent(Context context, long idNote) {
         Intent intent = new Intent(context, ActivityEditRecord.class);
-        intent.putExtra(ActivityEditRecord.EXTRA_NOTE, note);
+        intent.putExtra(ActivityEditRecord.EXTRA_NOTE_ID, idNote);
         return intent;
     }
 
@@ -38,9 +57,37 @@ public class ActivityEditRecord extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_record);
+        idNote = getIntent().getLongExtra(EXTRA_NOTE_ID, DEFAULT_ID);
         createArrayListColor();
         createToolbar();
         createEditor();
+        createDatabase();
+    }
+
+    @Override
+    public void onBackPressed() {
+        updateNoteAndCloseActivity();
+    }
+
+    private void createDatabase() {
+        Disposable disposable = Single.fromCallable(() -> LocalDatabase.getInstance().getAppDatabase())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object -> {
+                    appDatabase = object;
+                    createSubscriptionUpdateDatabase();
+                });
+
+        compositeDisposable.add(disposable);
+    }
+
+    private void createSubscriptionUpdateDatabase() {
+        Disposable disposable = appDatabase.noteDao().getNoteById(idNote)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::refreshActivity);
+
+        compositeDisposable.add(disposable);
     }
 
     private void createToolbar() {
@@ -56,12 +103,17 @@ public class ActivityEditRecord extends AppCompatActivity {
 
             return false;
         });
-        toolbar.setNavigationOnClickListener(v -> saveNoteAndCloseActivity());
+        menuItemColorSelected = toolbar.getMenu().findItem(R.id.menu_item_change_color);
+        menuItemColorSelected.setEnabled(false);
+        toolbar.setNavigationOnClickListener(v -> updateNoteAndCloseActivity());
     }
 
-    private void openDialogColorSelected(){
+    private void openDialogColorSelected() {
         AlertDialogColorSelected myCustomBuilder = new AlertDialogColorSelected(this,
-                note, arrayListColor, () -> alertDialog.dismiss());
+                note, arrayListColor, () -> {
+            alertDialog.dismiss();
+            updateNote();
+        });
         alertDialog = myCustomBuilder.create();
         alertDialog.setOnShowListener(dialog -> {
             Button negativButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
@@ -72,23 +124,75 @@ public class ActivityEditRecord extends AppCompatActivity {
     }
 
     private void createEditor() {
-        note = getIntent().getParcelableExtra(EXTRA_NOTE);
         editTextTitle = findViewById(R.id.edit_text_title);
         editTextDescription = findViewById(R.id.edit_text_description);
-        editTextTitle.setText(note.getTitle());
-        editTextDescription.setText(note.getDescription());
+        progressBar = findViewById(R.id.progressbar);
+        nestedScrollView = findViewById(R.id.nestedScrollView);
     }
 
-    private void saveNoteAndCloseActivity() {
+    private void lockEditor(){
+        editTextTitle.setVisibility(View.INVISIBLE);
+        editTextDescription.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        menuItemColorSelected.setEnabled(false);
+    }
+
+    private void unlockEditor(){
+        editTextTitle.setVisibility(View.VISIBLE);
+        editTextDescription.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        menuItemColorSelected.setEnabled(true);
+    }
+
+
+
+    private void refreshActivity(Note note) {
+        this.note = note;
+        unlockEditor();
+
+
+
+        if(note.getColor() == Note.DEFAULT_COLOR ||
+                note.getColor() == getResources().getColor(R.color.white)){
+            editTextDescription.setTextColor(getResources().getColor(R.color.black_54));
+            editTextDescription.setHintTextColor(getResources().getColor(R.color.black_54));
+            editTextTitle.setTextColor(getResources().getColor(R.color.warm_grey_four));
+            editTextTitle.setHintTextColor(getResources().getColor(R.color.warm_grey_four));
+        }
+        else {
+            editTextDescription.setTextColor(getResources().getColor(R.color.white));
+            editTextDescription.setHintTextColor(getResources().getColor(R.color.white));
+            editTextTitle.setTextColor(getResources().getColor(R.color.white));
+            editTextTitle.setHintTextColor(getResources().getColor(R.color.white));
+        }
+
+        editTextTitle.setText(note.getTitle());
+        editTextDescription.setText(note.getDescription());
+        nestedScrollView.setBackgroundColor((note.getColor() == Note.DEFAULT_COLOR) ?
+                getResources().getColor(R.color.white) : note.getColor());
+    }
+
+    private void updateNote() {
+
+        lockEditor();
+
         note.setTitle(editTextTitle.getText().toString());
         note.setDescription(editTextDescription.getText().toString());
-        Intent intent = new Intent();
-        intent.putExtra(ActivityEditRecord.EXTRA_NOTE, note);
-        setResult(RESULT_OK, intent);
+
+        Disposable disposable = Completable.fromAction(() -> appDatabase.noteDao().insert(note))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+
+        compositeDisposable.add(disposable);
+    }
+
+    private void updateNoteAndCloseActivity() {
+        updateNote();
         finish();
     }
 
-    private void createArrayListColor(){
+    private void createArrayListColor() {
         arrayListColor = new ArrayList<>();
         arrayListColor.add(getResources().getColor(R.color.lipstick));
         arrayListColor.add(getResources().getColor(R.color.lipstick_two));
@@ -106,5 +210,11 @@ public class ActivityEditRecord extends AppCompatActivity {
         arrayListColor.add(getResources().getColor(R.color.warm_grey_five));
         arrayListColor.add(getResources().getColor(R.color.blue_grey));
         arrayListColor.add(getResources().getColor(R.color.white));
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.dispose();
+        super.onDestroy();
     }
 }

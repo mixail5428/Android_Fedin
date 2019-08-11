@@ -22,8 +22,14 @@ public interface NoteDao {
     @Query("SELECT * FROM note WHERE archived =:criterionArchivedStatusNote")
     Flowable<List<Note>> getAll(int criterionArchivedStatusNote);
 
+    @Query("SELECT * FROM note WHERE id =:idNote")
+    Flowable<Note> getNoteById(long idNote);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Note note);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insertAndReturnId(Note note);
 
     @Update
     void update(Note note);

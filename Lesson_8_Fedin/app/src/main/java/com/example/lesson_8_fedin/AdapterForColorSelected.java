@@ -51,12 +51,10 @@ public class AdapterForColorSelected extends RecyclerView.Adapter<AdapterForColo
     }
 
     public static class HolderColor extends RecyclerView.ViewHolder {
-        View layout;
         FloatingActionButton fab;
 
         public HolderColor(@NonNull View itemView) {
             super(itemView);
-            layout = itemView;
             fab = itemView.findViewById(R.id.floating_action_button);
         }
 
@@ -70,13 +68,13 @@ public class AdapterForColorSelected extends RecyclerView.Adapter<AdapterForColo
             fab.setBackgroundTintList(ColorStateList.valueOf(color));
 
             if (color == note.getColor()) {
-                fab.setImageDrawable(layout.getContext().getResources()
+                fab.setImageDrawable(itemView.getContext().getResources()
                         .getDrawable(R.drawable.ic_check_white_24dp));
             }
 
-            if (note.getColor() == Note.DEFAULT_COLOR && color == layout.getResources()
+            if (note.getColor() == Note.DEFAULT_COLOR && color == itemView.getResources()
                     .getColor(R.color.white))
-                fab.setImageDrawable(layout.getContext().getResources()
+                fab.setImageDrawable(itemView.getContext().getResources()
                 .getDrawable(R.drawable.ic_check_black_24dp));
         }
 

@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 public class Note implements Parcelable {
 
     @Ignore
-    public static final int DEFAULT_COLOR = -11111111;
+    public static final int DEFAULT_COLOR = -1111;
 
     @Ignore
     public static final int STATUS_NOTE_ARCHIVED = 1;
@@ -21,7 +21,7 @@ public class Note implements Parcelable {
 
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
 
     private String title;
 
@@ -31,17 +31,17 @@ public class Note implements Parcelable {
 
     private int archived;
 
-    public Note(){
+    public Note() {
         this("", "");
     }
 
-    public Note(String title, String description, int color, int archived){
+    public Note(String title, String description, int color, int archived) {
         this(title, description);
         this.color = color;
         this.archived = archived;
     }
 
-    public Note(String title, String description){
+    public Note(String title, String description) {
         this.title = title;
         this.description = description;
         this.color = DEFAULT_COLOR;
@@ -49,14 +49,14 @@ public class Note implements Parcelable {
     }
 
     public void archivedNote(){
-        archived = 1;
+        archived = STATUS_NOTE_ARCHIVED;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -92,6 +92,7 @@ public class Note implements Parcelable {
         this.archived = archived;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -99,7 +100,7 @@ public class Note implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeLong(this.id);
         dest.writeString(this.title);
         dest.writeString(this.description);
         dest.writeInt(this.color);
@@ -107,14 +108,14 @@ public class Note implements Parcelable {
     }
 
     protected Note(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readLong();
         this.title = in.readString();
         this.description = in.readString();
         this.color = in.readInt();
         this.archived = in.readInt();
     }
 
-    public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>() {
+    public static final Creator<Note> CREATOR = new Creator<Note>() {
         @Override
         public Note createFromParcel(Parcel source) {
             return new Note(source);

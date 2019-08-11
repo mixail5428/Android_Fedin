@@ -14,7 +14,7 @@ public class LocalDatabase extends Application {
         super.onCreate();
         instance = this;
         appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class,
-                "basa").build();
+                "database").build();
     }
 
 
